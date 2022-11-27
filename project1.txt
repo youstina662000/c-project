@@ -1,0 +1,211 @@
+#include <iostream>
+using namespace std;
+#include <string>
+struct seats
+{
+	int seatnumber;
+	bool status=true;
+};
+struct cars
+{
+	int  ID;
+	seats b[30];
+};
+
+void carID(cars a[], int x)
+{
+	for (int i = 0;i < 10;i++)
+	{
+		a[i].ID = x;
+		x++;
+	}
+}
+void seatnumber(cars a[])
+{
+	int y = 1;
+	for (int i = 0;i < 10;i++)
+	{
+		y = 1;
+		for (int j = 0;j < 30;j++)
+		{
+			a[i].b[j].seatnumber = y;
+			y++;
+		}
+	}
+}
+void reservation(cars a[])
+
+{
+	int c, s;
+	cout << "enter the carnumber and seatnumber : ";
+	cin >> c >> s;
+	if (c <= 10 && c >= 1 && s <= 30 && s >= 1)
+	{
+		if (a[c - 1].b[s - 1].status == true)
+		{
+			a[c - 1].b[s - 1].status = false;
+			cout << "reserved ";
+		}
+		else
+			cout << "its already reserved " << endl;
+	}
+	else {
+		cout << "un anavailable car number and seat number " << endl;
+		reservation(a);
+	}
+}
+void cancel(cars a[])
+{
+	cout << " to cancel enter the carnumber and seatnumber : ";
+	int c, s;
+	cin >> c >> s;
+	if (c <= 10 && c >= 1 && s <= 30 && s >= 1)
+	{ 
+		if (a[c - 1].b[s - 1].status == false)
+		{
+			a[c - 1].b[s - 1].status = true;
+			cout << "canceled ";
+		}
+		else
+			cout << "its already not reserved " << endl;
+	}
+	else
+	{
+		cout << "un anavailable car number and seat number ";
+		cancel(a);
+	}
+}
+void checking(cars a[])
+{
+	cout << "enter the number of the specific car : ";
+	int c;
+	cin >> c;
+	if (c <= 10 && c >= 1)
+	{
+
+		for (int i = 0;i < 30;i++)
+		{
+			if (a[c - 1].b[i].status == true )
+			{
+				cout << "yes";
+				break;
+			}
+		}
+		cout << "no";
+	}
+	else
+	{
+		cout << "you entered unavailable number " << endl;
+		checking(a);
+	}
+}
+void checking2(cars a[])
+{
+	int c, s;
+	cout << "enter the carnumber and seatnumber";
+	cin >> c >> s;
+	if (c <= 10 && c >= 1 && s <= 30 && s >= 1)
+	{
+
+		if (a[c - 1].b[s - 1].status == true)
+			cout << "available";
+		else
+			cout << "not available";
+	}
+	else
+	{
+		cout << "you enter unavailable number" ;
+			checking2(a);
+	}
+}
+void seatsstatus(cars a[] )
+{
+	int x = 0;
+	int c;
+	cout << "enter the number of the specific car : ";
+	cin >> c;
+	if (c <= 30 && c >= 1)
+	{
+		for (int i = 0;i < 30;i++)
+		{
+			if (a[c - 1].b[i].status == true)
+			x++;
+		}
+		cout << x << " seats are available ";
+	}
+
+	else
+	{
+		cout << "you enter unavailable number" << endl;
+		seatsstatus(a);
+	}
+
+}
+void showing(cars a[])
+{
+	int c;
+	cout << "enter the number of the specific car : ";
+	cin >> c;
+	if (c <= 30 && c >= 1)
+	{
+		for (int i = 0;i < 30;i++)
+		{
+			if (a[c - 1].b[i].status == true)
+				cout << i + 1 << " : available " << endl;
+			else
+				cout << i + 1 << " : not available " << endl;
+		}
+	}
+	else
+	{
+		cout << "you enter unavailable number" << endl;
+		showing(a);
+	}
+}
+
+void main()
+{
+	struct cars a[10];
+	carID(a,1);
+	seatnumber(a);
+	cout << "1-	Reserve a ticket." << endl << "2 - Cancel the reservation." << endl << "3 - Check whether a specific car has available seat or not." << endl << "4 - Check whether a specific seat is available or not." << endl <<"5 - Get the number of the available seats in a specific car." << endl << "6 - Show all the seats status of a specific car."<<endl<<"7 - Exit." ;
+	cout << endl;
+	int x;
+
+	do {
+		cout << "enter the number of your operation " << endl;
+		cin >> x;
+		
+		if (x < 7 && x>0)
+		{
+			switch (x)
+			{
+			case 1:reservation(a);
+				cout << endl;break;
+			case 2:cancel(a);
+				cout << endl;break;
+			case 3:checking(a);
+				cout << endl;break;
+			case 4:	checking2(a);
+				cout << endl;break;
+
+			case 5:seatsstatus(a);
+				cout << endl;break;
+			case 6:showing(a);
+				cout << endl;break;
+			case 7:
+				cout << endl;break;
+
+
+
+			}
+		}
+		else 
+		{
+			cout << " you entered unavailable number ";
+			continue;
+		}
+	} while (x != 7);
+
+	system("pause");
+}
